@@ -1,0 +1,315 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Highlight.js theme for code syntax highlighting */
+@import 'highlight.js/styles/github.css';
+
+/* Dark theme highlight.js styles */
+@media (prefers-color-scheme: dark) {
+    @import 'highlight.js/styles/github-dark.css';
+}
+
+:root {
+    --font-inter: 'Inter', sans-serif;
+    --font-mono: 'Monaco', 'Courier New', monospace;
+}
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply bg-gray-50 text-gray-900;
+    }
+
+    /* Global scrollbar styling */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+
+    /* WebKit scrollbar styling for all elements */
+    *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background-color: #94a3b8;
+    }
+
+    /* Dark mode global scrollbar */
+    .dark *::-webkit-scrollbar-thumb {
+        background-color: #475569;
+    }
+
+    .dark *::-webkit-scrollbar-thumb:hover {
+        background-color: #64748b;
+    }
+
+    .dark * {
+        scrollbar-color: #475569 transparent;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200;
+    }
+
+    .card {
+        @apply bg-white rounded-lg shadow-legal p-6 border border-gray-200;
+    }
+
+    .card-hover {
+        @apply transition-all duration-200 hover:shadow-legal-lg hover:border-primary-200;
+    }
+
+    .input-field {
+        @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm;
+    }
+
+    .badge {
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    }
+
+    .badge-risk-high {
+        @apply bg-risk-high bg-opacity-10 text-risk-high border border-risk-high;
+    }
+
+    .badge-risk-medium {
+        @apply bg-risk-medium bg-opacity-10 text-risk-medium border border-risk-medium;
+    }
+
+    .badge-risk-low {
+        @apply bg-risk-low bg-opacity-10 text-risk-low border border-risk-low;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Loading spinner */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f3f4f6;
+    border-radius: 0.25rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 0.25rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #374151;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #6b7280;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af;
+}
+
+/* Apply custom scrollbar globally to main chat areas */
+.chat-container::-webkit-scrollbar,
+.conversation-list::-webkit-scrollbar,
+.message-content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.chat-container::-webkit-scrollbar-track,
+.conversation-list::-webkit-scrollbar-track,
+.message-content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb,
+.conversation-list::-webkit-scrollbar-thumb,
+.message-content::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 0.25rem;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover,
+.conversation-list::-webkit-scrollbar-thumb:hover,
+.message-content::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+}
+
+/* Dark mode for chat scrollbars */
+.dark .chat-container::-webkit-scrollbar-thumb,
+.dark .conversation-list::-webkit-scrollbar-thumb,
+.dark .message-content::-webkit-scrollbar-thumb {
+    background-color: #475569;
+}
+
+.dark .chat-container::-webkit-scrollbar-thumb:hover,
+.dark .conversation-list::-webkit-scrollbar-thumb:hover,
+.dark .message-content::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
+}
+
+/* Markdown-specific styling for chat messages */
+.message-content {
+    /* Override prose defaults for better chat bubble integration */
+    position: relative;
+}
+
+.message-content .prose {
+    /* Ensure markdown elements don't break out of chat bubbles */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.message-content .prose pre {
+    /* Ensure code blocks fit within chat bubbles */
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.message-content .prose code {
+    /* Inline code styling within chat context */
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.message-content .prose table {
+    /* Responsive tables in chat */
+    font-size: 0.875em;
+}
+
+/* Enhanced list styling for better accessibility */
+.message-content .prose ul>li {
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.message-content .prose ol>li {
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.message-content .prose ul>li::marker,
+.message-content .prose ol>li::marker {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Better paragraph spacing in lists */
+.message-content .prose li>p {
+    margin: 0;
+}
+
+/* Ensure strong contrast for all text elements */
+.message-content .prose strong {
+    font-weight: 700;
+}
+
+.message-content .prose em {
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* Custom highlight.js overrides for chat context */
+.hljs {
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+
+/* Dark mode adjustments for code highlighting */
+.dark .hljs {
+    background-color: rgb(15 23 42) !important;
+    /* slate-900 */
+}
+
+/* Light mode adjustments */
+.hljs {
+    background-color: rgb(248 250 252) !important;
+    /* slate-50 */
+}
+
+/* Line clamp utilities for text truncation */
+.line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.line-clamp-4 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}

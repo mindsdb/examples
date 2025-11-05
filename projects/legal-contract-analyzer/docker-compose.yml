@@ -1,0 +1,64 @@
+services:
+  mindsdb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mindsdb
+    container_name: mindsdb_container
+    environment:
+      - MINDSDB_APIS=http,mysql
+      - MKL_SERVICE_FORCE_INTEL=1
+    ports:
+      - "47334:47334"
+      - "47335:47335"
+    volumes:
+      - ./mdb_data:/root/mdb_storage
+    command: python -m mindsdb
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:47334"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  python-backend:
+    build:
+      context: .
+      dockerfile: python-services/Dockerfile
+    container_name: python_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MINDSDB_HOST=http://mindsdb:47334
+      - MINDSDB_URL=http://mindsdb:47334
+    volumes:
+      - ./python-services:/app
+      - ./python-services/uploads:/app/uploads
+    depends_on:
+      mindsdb:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  nextjs-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: nextjs_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      python-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mdb_data:
