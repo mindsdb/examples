@@ -1,0 +1,3 @@
+Flask>=2.3.0
+mindsdb-sdk==3.4.8
+python-dotenv>=1.0.0
