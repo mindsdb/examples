@@ -1,0 +1,15 @@
+node_modules
+.next
+.git
+.gitignore
+README.md
+Dockerfile*
+docker-compose.yml
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+mdb_data
+python-services/__pycache__
+python-services/**/__pycache__
+**/.DS_Store

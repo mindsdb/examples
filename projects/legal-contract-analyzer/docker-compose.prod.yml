@@ -1,0 +1,64 @@
+# Legal Contract Analyzer - Production Docker Compose
+# Single command deployment for users
+
+services:
+  mindsdb:
+    image: ritwickrajmakhal/legal-contract-analyzer-mindsdb:latest
+    container_name: legal_contract_mindsdb
+    environment:
+      - MINDSDB_APIS=http,mysql
+      - MKL_SERVICE_FORCE_INTEL=1
+      - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus
+    ports:
+      - "47334:47334"
+      - "47335:47335"
+    volumes:
+      - mdb_data:/root/mdb_storage
+    command: python -m mindsdb
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:47334"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  backend:
+    image: ritwickrajmakhal/legal-contract-analyzer-backend:latest
+    container_name: legal_contract_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MINDSDB_HOST=http://mindsdb:47334
+      - MINDSDB_URL=http://mindsdb:47334
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      mindsdb:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  frontend:
+    image: ritwickrajmakhal/legal-contract-analyzer-frontend:latest
+    container_name: legal_contract_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mdb_data:
+    driver: local
